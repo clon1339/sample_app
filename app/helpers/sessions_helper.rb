@@ -22,9 +22,8 @@ module SessionsHelper
     if (user_id = session[:user_id])
       @current_user ||= User.find_by(id: user_id)
     elsif (user_id = cookies.signed[:user_id])
-      # raise       # テストがパスすれば、この部分がテストされていないことがわかる
       user ||= User.find_by(id: user_id)
-      if user && user.authenticated?(cookies[:remember_token])
+      if user && user.authenticated?(:remember, cookies[:remember_token])
         log_in user
         @current_user = user
       end
@@ -55,6 +54,7 @@ module SessionsHelper
     redirect_to(session[:forwarding_url] || default)
     session.delete(:forwarding_url)
   end
+  
   # アクセスしようとしたURLを覚えておく
   def store_location
     session[:forwarding_url] = request.original_url if request.get?
