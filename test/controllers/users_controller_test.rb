@@ -6,7 +6,6 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     @user = users(:michael)
     @other_user = users(:archer)
     @non_activated_user = users(:macaroni)
-    
   end
   
   test "should redirect index when not logged in" do
@@ -78,5 +77,15 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     assert_select "a[href=?]", user_path(@non_activated_user), count: 0
     get user_path(@non_activated_user)
     assert_redirected_to root_url
+  end
+  
+  test "should redirect following when not logged in" do
+    get following_user_path(@user)
+    assert_redirected_to login_url
+  end
+  
+  test "should redirect followers when not logged in" do
+    get followers_user_path(@user)
+    assert_redirected_to login_url
   end
 end
