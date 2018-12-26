@@ -5,7 +5,7 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
   def setup
     @user = users(:michael)
     @other_user = users(:archer)
-    @non_activated_user = users(:malory)
+    @non_activated_user = users(:macaroni)
     
   end
   
